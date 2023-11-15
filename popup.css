@@ -1,0 +1,20 @@
+body{
+  width: 200px;
+}
+.button{
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  border-style: none;
+  font-size: 2em;
+  /* background-color: #ee5365; */
+  background-color: #c2c2c2;
+}
+.button:hover{
+  background-color: #e7e7e7;
+  /* background-color: #f1394e; */
+}
+.test{
+  width: 150px;
+  word-wrap:break-word;
+}

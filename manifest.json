@@ -1,0 +1,25 @@
+{
+  "name": "test",
+  "version": "0.0.1",
+  "author": "nulla",
+  "manifest_version": 3,
+  "description": "?",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "tttt"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "128": "assets/icon.png"
+  },
+  "permissions": [
+    "identity",
+    "identity.email",
+    "storage",
+    "unlimitedStorage",
+    "activeTab",
+    "tabCapture"
+  ]
+}
