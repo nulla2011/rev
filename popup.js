@@ -17,7 +17,7 @@ button.onclick = () => {
 };
 chrome.runtime.onMessage.addListener((message, sender) => {
   if (message.key === 'test') {
-    // document.querySelector('h1').innerText = message.data;
+    document.querySelector('h1').innerText = message.data;
   }
 });
 const getAudio = () => {

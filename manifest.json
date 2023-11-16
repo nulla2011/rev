@@ -1,12 +1,12 @@
 {
-  "name": "test",
+  "name": "reverse audio",
   "version": "0.0.1",
   "author": "nulla",
   "manifest_version": 3,
-  "description": "?",
+  "description": "record and reverse web audio",
   "action": {
     "default_popup": "popup.html",
-    "default_title": "tttt"
+    "default_title": "record"
   },
   "background": {
     "service_worker": "background.js"
@@ -15,10 +15,6 @@
     "128": "assets/icon.png"
   },
   "permissions": [
-    "identity",
-    "identity.email",
-    "storage",
-    "unlimitedStorage",
     "activeTab",
     "tabCapture"
   ]

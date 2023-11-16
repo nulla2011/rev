@@ -5,20 +5,23 @@ const originAudio = document.querySelector('#origin');
 const reverseAudio = document.querySelector('#reverse');
 // const audioContext = new AudioContext();
 // const bufferSource = audioContext.createBufferSource(originAudio);
+let buffer = [];
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if ((message.key = 'sampleRate')) {
+    sampleRate = message.data;
+  }
   if (message.buffer) {
     // audioBuffer = message.buffer;
     // bufferSource.buffer = audioBuffer;
     // bufferSource.connect(audioContext.destination);
     // bufferSource.start();
-    sampleRate = message.sampleRate;
     const blob = new Blob([encodeWAV(interleave(message.buffer[0], message.buffer[1]))], {
       type: 'audio/wav',
     });
     const blobUrl = URL.createObjectURL(blob);
     originAudio.innerHTML = `<audio src="${blobUrl}" controls></audio><a href="${blobUrl}" download="down.wav"></a>`;
     const blob2 = new Blob(
-      [encodeWAV(interleave(message.buffer[0], message.buffer[1]).reverse())],
+      [encodeWAV(interleave(message.buffer[0].reverse(), message.buffer[1].reverse()))],
       {
         type: 'audio/wav',
       }
