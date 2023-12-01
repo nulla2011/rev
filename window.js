@@ -1,31 +1,33 @@
-const numChannels = 2;
+let numChannels = 2;
 let sampleRate;
-// let audioBuffer;
 const originAudio = document.querySelector('#origin');
 const reverseAudio = document.querySelector('#reverse');
 // const audioContext = new AudioContext();
 // const bufferSource = audioContext.createBufferSource(originAudio);
 let buffer = [];
+window.onload = () => chrome.runtime.sendMessage({ key: 'window-finish-loading' });
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if ((message.key = 'sampleRate')) {
-    sampleRate = message.data;
+  if (message.key === 'init') {
+    sampleRate = message.sampleRate;
+    numChannels = message.numChannels;
+    buffer = Array(numChannels).fill([]);
   }
-  if (message.buffer) {
-    // audioBuffer = message.buffer;
-    // bufferSource.buffer = audioBuffer;
-    // bufferSource.connect(audioContext.destination);
-    // bufferSource.start();
-    const blob = new Blob([encodeWAV(interleave(message.buffer[0], message.buffer[1]))], {
+  if (message.key === 'chunk') {
+    for (let i = 0; i < numChannels; i++) {
+      buffer[i][message.index] = message.data[i];
+    }
+  }
+  if (message.key === 'finish') {
+    // document.querySelector('#test').innerHTML = `${buffer[0][0][3000]}<br>${buffer[1][0][3000]}`;
+    const b = [buffer[0].flat(1), buffer[1].flat(1)];
+    const blob = new Blob([encodeWAV(interleave(...b))], {
       type: 'audio/wav',
     });
     const blobUrl = URL.createObjectURL(blob);
     originAudio.innerHTML = `<audio src="${blobUrl}" controls></audio><a href="${blobUrl}" download="down.wav"></a>`;
-    const blob2 = new Blob(
-      [encodeWAV(interleave(message.buffer[0].reverse(), message.buffer[1].reverse()))],
-      {
-        type: 'audio/wav',
-      }
-    );
+    const blob2 = new Blob([encodeWAV(interleave(b[0].reverse(), b[1].reverse()))], {
+      type: 'audio/wav',
+    });
     const blob2Url = URL.createObjectURL(blob2);
     reverseAudio.innerHTML = `<audio src="${blob2Url}" controls></audio><a href="${blob2Url}" download="down.wav"></a>`;
   }
