@@ -10,7 +10,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.key === 'init') {
     sampleRate = message.sampleRate;
     numChannels = message.numChannels;
-    buffer = Array(numChannels).fill([]);
+    buffer = Array(numChannels)
+      .fill()
+      .map(() => []);
   }
   if (message.key === 'chunk') {
     for (let i = 0; i < numChannels; i++) {
@@ -18,7 +20,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
   }
   if (message.key === 'finish') {
-    // document.querySelector('#test').innerHTML = `${buffer[0][0][3000]}<br>${buffer[1][0][3000]}`;
     const b = [buffer[0].flat(1), buffer[1].flat(1)];
     const blob = new Blob([encodeWAV(interleave(...b))], {
       type: 'audio/wav',

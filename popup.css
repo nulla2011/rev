@@ -1,20 +1,35 @@
-body{
-  width: 200px;
+body {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.button{
+.button {
   width: 100px;
   height: 40px;
   border-radius: 10px;
   border-style: none;
   font-size: 2em;
   /* background-color: #ee5365; */
-  background-color: #c2c2c2;
+  background-color: rgb(255, 154, 154);
+  margin-block: 4px;
 }
-.button:hover{
-  background-color: #e7e7e7;
+.button:hover {
+  background-color: rgb(248, 101, 101);
   /* background-color: #f1394e; */
 }
-.test{
+.test {
   width: 150px;
-  word-wrap:break-word;
+  word-wrap: break-word;
+}
+#timer {
+  font-size: 2em;
+  margin-block: 4px;
+}
+ul {
+  padding-inline-start: 10px;
+}
+#key-hint {
+  font-size: 1.2em;
+  margin-block: 4px;
 }

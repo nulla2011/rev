@@ -3,23 +3,47 @@ let isRecording = false;
 let recorder;
 const button = document.querySelector('.button');
 // button.onclick = () => chrome.runtime.sendMessage('start-capture');
-button.onclick = () => {
+const timer = document.querySelector('#timer');
+let timerID;
+const startTimer = () => {
+  const startTime = Date.now();
+  let currentTime = Date.now();
+  timerID = setInterval(() => {
+    currentTime = Date.now();
+    const time = (currentTime - startTime) / 1000;
+    const minute = Math.floor(time / 60);
+    const second = (time - minute * 60).toFixed(2);
+    timer.innerText = `${String(minute).padStart(2, '0')}:${String(second).padStart(5, '0')}`;
+  }, 10);
+};
+const stopTimer = () => {
+  clearInterval(timerID);
+};
+const toggleRecord = () => {
   if (!isRecording) {
     getAudio();
     button.innerText = 'stop';
     isRecording = !isRecording;
+    startTimer();
   } else {
     closeAudio();
     button.innerText = 'record';
     // document.querySelector('#test').innerText = recorder.buffer[0];
     isRecording = !isRecording;
+    stopTimer();
   }
 };
-chrome.runtime.onMessage.addListener((message, sender) => {
-  if (message.key === 'test') {
-    document.querySelector('h1').innerText = message.data;
+button.onclick = toggleRecord;
+chrome.commands.onCommand.addListener((command) => {
+  if (command === 'toggle') {
+    toggleRecord();
   }
 });
+// chrome.runtime.onMessage.addListener((message, sender) => {
+//   if (message.key === 'test') {
+//     document.querySelector('#test').innerText = message.data;
+//   }
+// });
 const getAudio = () => {
   closeAudio();
   chrome.tabCapture.capture({ audio: true, video: false }, (callback) => {

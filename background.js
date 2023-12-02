@@ -34,6 +34,10 @@ const finish = () => {
         if (message.key === 'window-finish-loading') {
           const tid = window.tabs[0].id;
           chrome.tabs.sendMessage(tid, { key: 'init', sampleRate, numChannels });
+          // chrome.runtime.sendMessage({
+          //   key: 'test',
+          //   data: `${recBuffers[0][3000]}<br>${recBuffers[1][3000]}`,
+          // });
           const taskList = [];
           for (let index = 0; index < recBuffers[0].length / chunkSize; index++) {
             taskList.push(
